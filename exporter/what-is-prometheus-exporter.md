@@ -1,6 +1,6 @@
 # Exporter是什么
 
-广义上讲所有可以向Prometheus提供监控样本数据的程序都可以被称为一个Exporter。而Exporter的一个实例称为target，如下所示，Prometheus通过轮询的方式定期从这些target中获取样本数据:
+广义上讲，所有可以向Prometheus提供监控样本数据的程序都可以被称为一个Exporter。而Exporter的一个实例称为target，如下所示，Prometheus通过轮询的方式定期从这些target中获取样本数据:
 
 ![Exporter](./static/prometheus-exporter.png)
 
@@ -26,7 +26,7 @@ Prometheus社区提供了丰富的Exporter实现，涵盖了从基础设施，�
 
 * 用户自定义的
 
-除了直接使用社区提供的Exporter程序以外，用户还可以基于Prometheus提供的Client Library创建自己的Exporter程序，目前Promthues社区官方提供了对以下编程语言的支持：Go、Java/Scala、Python、Ruby。同时还有第三方实现的如：Bash、C++、Common Lisp、Erlang,、Haskeel、Lua、Node.js、PHP、Rust等。
+除了直接使用社区提供的Exporter程序以外，用户还可以基于Prometheus提供的Client Library创建自己的Exporter程序，目前Prometheus社区官方提供了对以下编程语言的支持：Go、Java/Scala、Python、Ruby。同时还有第三方实现的如：Bash、C++、Common Lisp、Erlang,、Haskeel、Lua、Node.js、PHP、Rust等。
 
 ## Exporter的运行方式
 
@@ -101,7 +101,7 @@ http_request_duration_seconds_bucket{le="+Inf"} 144320
 http_request_duration_seconds_sum 53423
 http_request_duration_seconds_count 144320
 
-# Finally a summary, which has a complex representation, too:
+# Finaly a summary, which has a complex representation, too:
 # HELP rpc_duration_seconds A summary of the RPC duration in seconds.
 # TYPE rpc_duration_seconds summary
 rpc_duration_seconds{quantile="0.01"} 3102

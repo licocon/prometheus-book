@@ -2,7 +2,7 @@
 
 Prometheus的本地存储设计可以减少其自身运维和管理的复杂度，同时能够满足大部分用户监控规模的需求。但是本地存储也意味着Prometheus无法持久化数据，无法存储大量历史数据，同时也无法灵活扩展和迁移。
 
-为了保持Prometheus的简单性，Prometheus并没有尝试在自身中解决以上问题，而是通过定义两个标准接口(remote_write/remote_read)，让用户可以基于这两个接口对接将数据保存到任意第三方的存储服务中，这种方式在Promthues中称为Remote Storage。
+为了保持Prometheus的简单性，Prometheus并没有尝试在自身中解决以上问题，而是通过定义两个标准接口(remote_write/remote_read)，让用户可以基于这两个接口对接将数据保存到任意第三方的存储服务中，这种方式在Prometheus中称为Remote Storage。
 
 ## Remote Write
 
@@ -12,9 +12,9 @@ Prometheus的本地存储设计可以减少其自身运维和管理的复杂度�
 
 ## Remote Read
 
-如下图所示，Promthues的Remote Read(远程读)也通过了一个适配器实现。在远程读的流程当中，当用户发起查询请求后，Promthues将向remote_read中配置的URL发起查询请求(matchers,ranges)，Adaptor根据请求条件从第三方存储服务中获取响应的数据。同时将数据转换为Promthues的原始样本数据返回给Prometheus Server。
+如下图所示，Prometheus的Remote Read(远程读)也通过了一个适配器实现。在远程读的流程当中，当用户发起查询请求后，Prometheus将向remote_read中配置的URL发起查询请求(matchers,ranges)，Adaptor根据请求条件从第三方存储服务中获取响应的数据。同时将数据转换为Prometheus的原始样本数据返回给Prometheus Server。
 
-当获取到样本数据后，Promthues在本地使用PromQL对样本数据进行二次处理。
+当获取到样本数据后，Prometheus在本地使用PromQL对样本数据进行二次处理。
 
 > 注意：启用远程读设置后，只在数据查询时有效，对于规则文件的处理，以及Metadata API的处理都只基于Prometheus本地存储完成。
 
@@ -24,7 +24,7 @@ Prometheus的本地存储设计可以减少其自身运维和管理的复杂度�
 
 Prometheus配置文件中添加remote_write和remote_read配置，其中url用于指定远程读/写的HTTP服务地址。如果该URL启动了认证则可以通过basic_auth进行安全认证配置。对于https的支持需要设定tls_concig。proxy_url主要用于Prometheus无法直接访问适配器服务的情况下。
 
-remote_write和remote_write具体配置如下所示：
+remote_write和remote_read具体配置如下所示：
 
 ```
 remote_write:
@@ -252,6 +252,6 @@ go_memstats_heap_alloc_bytes
 go_memstats_heap_idle_bytes
 ```
 
-当数据写入成功后，停止Prometheus服务。同时删除Prometheus的data目录，模拟Promthues数据丢失的情况后重启Prometheus。打开Prometheus UI如果配置正常，Prometheus可以正常查询到本地存储以删除的历史数据记录。
+当数据写入成功后，停止Prometheus服务。同时删除Prometheus的data目录，模拟Prometheus数据丢失的情况后重启Prometheus。打开Prometheus UI如果配置正常，Prometheus可以正常查询到本地存储以删除的历史数据记录。
 
 ![从Remote Storage获取历史数据](./static/promethues-remote-storage.png)
